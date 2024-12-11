@@ -46,7 +46,6 @@ controlaCarrinho:; checa se o carrinho se moveu
   cmp r0, r1
   jeq fim_controla
 
-  ;call printtela1Screen
   call printCARRINHO
 
   fim_controla:
