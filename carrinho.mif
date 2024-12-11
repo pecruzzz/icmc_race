@@ -1,0 +1,6 @@
+-- Codigo gerado pelo montador
+WIDTH=16;
+DEPTH=32768;
+ADDRESS_RADIX=UNS;
+DATA_RADIX=BIN;
+CONTENT BEGIN

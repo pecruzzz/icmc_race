@@ -1,42 +1,225 @@
-jmp main  
-
-
 ; Variaveis auxiliares para movimentos
 aux: var #1
 aux1: var #1
 aux2: var #1   
 
 CARRINHOPosition: var #1
-PosAnterior: var #1
-Colisao: var #1
+PosicaoAnteriorCarrinho: var #1
 
 main:
 
 loadn r1, #327 ;posicao inicial do carrinho 
 store CARRINHOPosition, r1    ; inicia o carrinho na posicao
 
-loadn r4, #0
-loadn r2, #0
 
 call printtela1Screen
 call printCARRINHO
 
 loop:
-
-  loadn r1, #1
-  mod r1, r4, r1
-  cmp r1, r2
-
   call MoveCarrinho
-
   call Delay
-  inc r4
-
+  call controlaCarrinho
   jmp loop
 
 halt
 
 
+
+;funçoes
+
+controlaCarrinho:; checa se o carrinho se moveu
+
+  push r0
+  push r1
+
+  load r0, CARRINHOPosition
+  load r1, PosicaoAnteriorCarrinho
+
+  cmp r0, r1
+  jeq fim_controla
+
+  ;call printtela1Screen
+  call printCARRINHO
+
+  fim_controla:
+
+    pop r1
+    pop r0
+
+    rts
+  
+
+apagarCarrinhoDir:
+
+  push fr
+  push r0
+  push r1
+  push r2
+  push r3
+  push r4
+
+  load r0, CARRINHOPosition
+  store aux1, r0
+  load r0, aux1
+  loadn r1, #40
+  loadn r2, #' '
+  loadn r3, #0
+  loadn r4, #3
+
+  loopApagaDir:
+  inc r3
+  outchar r2, r0
+  add r0, r0, r1
+  cmp r3, r4
+  jne loopApagaDir
+  
+  pop r4
+  pop r3
+  pop r2
+  pop r1
+  pop r0
+  pop fr
+  rts
+
+
+printtela1Screen:
+push R0
+push R1
+push R2
+push R3
+
+loadn R0, #tela1
+loadn R1, #0
+loadn R2, #1200
+
+printtela1ScreenLoop:
+
+add R3,R0,R1
+loadi R3, R3
+outchar R3, R1
+inc R1
+cmp R1, R2
+
+jne printtela1ScreenLoop
+
+pop R3
+pop R2
+pop R1
+pop R0
+rts
+
+Delay:
+  push r0 
+	push r2 
+	
+	loadn r2, #10  ; a
+	
+  loopi:				; (dois loops de decremento conforme dicas de jogos)
+		loadn r0, #3000	; b
+  loopj: 
+		dec r0 			 
+		jnz loopj	
+		dec r2
+		jnz loopi
+	
+	pop r2
+	pop r0
+	
+	rts
+
+MoveCarrinho:
+	push r0 
+	push r1 
+	push r2
+	push r3
+	
+	call Direction	
+	
+	jmp MoveCarrinho_End
+	
+	MoveCarrinho_End:
+		pop r0 
+		pop r1 
+		pop r2
+		pop r3
+
+		rts 
+
+	
+Direction:          ;Funcao que le a direcao para qual o carrinho vai
+	push fr
+	push r0   ;recebe a telca (w, A, S, D)
+	push r1
+	push r2   ;armazena a pos. inicial do carrinho ao chamar a funcao 
+	push r3   ;mudar pra cima ou pra baixo
+	push r4
+	push r5
+	push r6
+	push r7
+	
+	load r2, CARRINHOPosition
+	loadn r3, #40     ;retira 40 para a nave ir para cima adiciona 40 para ir para baixo
+	
+	inchar r0
+	
+	Direction_Up:
+		loadn r1, #'w'
+		cmp r1, r0
+		jne Direction_Down
+		call apagarCARRINHO
+		sub r2, r2, r3     ;retira 40 para a nave ir para cima
+		jmp End_Direction
+
+	Direction_Left:
+		loadn r1, #'a'
+		cmp r1, r0
+	 	jne Direction_Down
+    call apagarCARRINHO		
+		dec r2             ;retira 1 para mover para esquerda
+		jmp End_Direction
+		
+	Direction_Down:
+		loadn r1, #'s'
+		cmp r1, r0
+		jne Direction_Right
+    call apagarCARRINHO
+		add r2, r2, r3      ;retira 40 para mover para baixo
+		jmp End_Direction
+
+	Direction_Right:
+		loadn r1, #'d'
+		cmp r1, r0
+    jne End_Direction
+    call apagarCARRINHO
+		inc r2              ;adiciona 1 para mover para direita
+		jmp End_Direction
+
+	End_Direction:
+		store aux, r2       ;Guarda a posicao do carro
+		load r1, aux        ;Transfere a informacao para o r1
+
+		loadn r3, #1
+		load r2, CARRINHOPosition
+		
+		cmp r0, r3
+		jeq End_Direction_Pops
+				
+		store CARRINHOPosition, r1
+		
+	End_Direction_Pops:       ;Apos finalizar as condicoes de movimentos, da pop
+
+		store PosicaoAnteriorCarrinho, r2
+		pop r7
+		pop r6
+		pop r5
+		pop r4
+		pop r3
+		pop r2
+		pop r1
+		pop r0
+		pop fr
+		
+		rts
 
 ;telas
 tela1 : var #1200
@@ -8866,9 +9049,8 @@ tela7 : var #1200
   static tela7 + #1198, #2560
   static tela7 + #1199, #2560
 
-;carro
-
-CARRINHO : var #16
+;carrinho
+  CARRINHO : var #16
   static CARRINHO + #0, #6 ;   
   static CARRINHO + #1, #9 ;   
   static CARRINHO + #2, #11 ;   
@@ -8981,302 +9163,3 @@ apagarCARRINHO:
   pop R1
   pop R0
   rts
-
-;funçoes
-
-printtela1Screen:
-push R0
-push R1
-push R2
-push R3
-
-loadn R0, #tela1
-loadn R1, #0
-loadn R2, #1200
-
-printtela1ScreenLoop:
-
-add R3,R0,R1
-loadi R3, R3
-outchar R3, R1
-inc R1
-cmp R1, R2
-
-jne printtela1ScreenLoop
-
-pop R3
-pop R2
-pop R1
-pop R0
-rts
-
-printtela2Screen:
-  push R0
-  push R1
-  push R2
-  push R3
-
-  loadn R0, #tela2
-  loadn R1, #0
-  loadn R2, #1200
-
-  printtela2ScreenLoop:
-
-    add R3,R0,R1
-    loadi R3, R3
-    outchar R3, R1
-    inc R1
-    cmp R1, R2
-
-    jne printtela2ScreenLoop
-
-  pop R3
-  pop R2
-  pop R1
-  pop R0
-  rts
-
-printtela3Screen:
-  push R0
-  push R1
-  push R2
-  push R3
-
-  loadn R0, #tela3
-  loadn R1, #0
-  loadn R2, #1200
-
-  printtela3ScreenLoop:
-
-    add R3,R0,R1
-    loadi R3, R3
-    outchar R3, R1
-    inc R1
-    cmp R1, R2
-
-    jne printtela3ScreenLoop
-
-  pop R3
-  pop R2
-  pop R1
-  pop R0
-  rts
-
-  printtela4Screen:
-  push R0
-  push R1
-  push R2
-  push R3
-
-  loadn R0, #tela4
-  loadn R1, #0
-  loadn R2, #1200
-
-  printtela4ScreenLoop:
-
-    add R3,R0,R1
-    loadi R3, R3
-    outchar R3, R1
-    inc R1
-    cmp R1, R2
-
-    jne printtela4ScreenLoop
-
-  pop R3
-  pop R2
-  pop R1
-  pop R0
-  rts
-
-  printtela5Screen:
-  push R0
-  push R1
-  push R2
-  push R3
-
-  loadn R0, #tela5
-  loadn R1, #0
-  loadn R2, #1200
-
-  printtela5ScreenLoop:
-
-    add R3,R0,R1
-    loadi R3, R3
-    outchar R3, R1
-    inc R1
-    cmp R1, R2
-
-    jne printtela5ScreenLoop
-
-  pop R3
-  pop R2
-  pop R1
-  pop R0
-  rts
-
-  printtela6Screen:
-  push R0
-  push R1
-  push R2
-  push R3
-
-  loadn R0, #tela6
-  loadn R1, #0
-  loadn R2, #1200
-
-  printtela6ScreenLoop:
-
-    add R3,R0,R1
-    loadi R3, R3
-    outchar R3, R1
-    inc R1
-    cmp R1, R2
-
-    jne printtela6ScreenLoop
-
-  pop R3
-  pop R2
-  pop R1
-  pop R0
-  rts
-  
-  printtela7Screen:
-  push R0
-  push R1
-  push R2
-  push R3
-
-  loadn R0, #tela7
-  loadn R1, #0
-  loadn R2, #1200
-
-  printtela7ScreenLoop:
-
-    add R3,R0,R1
-    loadi R3, R3
-    outchar R3, R1
-    inc R1
-    cmp R1, R2
-
-    jne printtela7ScreenLoop
-
-  pop R3
-  pop R2
-  pop R1
-  pop R0
-  rts
-
-Delay:
-  push r0 
-	push r2 
-	
-	loadn r2, #10  ; a
-	
-  loopi:				; (dois loops de decremento conforme dicas de jogos)
-		loadn r0, #3000	; b
-  loopj: 
-		dec r0 			 
-		jnz loopj	
-		dec r2
-		jnz loopi
-	
-	pop r2
-	pop r0
-	
-	rts
-
-MoveCarrinho:
-	push r0 
-	push r1 
-	push r2
-	push r3
-	
-	call Direction
-	call apagarCARRINHO
-  call printtela1Screen		
-	
-	call printCARRINHO
-	
-	jmp MoveCarrinho_End
-	
-	MoveCarrinho_End:
-		pop r0 
-		pop r1 
-		pop r2
-		pop r3
-
-		rts 
-
-	
-Direction:          ;Funcao que le a direcao para qual o carrinho vai
-	push fr
-	push r0   ;recebe a telca (w, A, S, D)
-	push r1
-	push r2   ;armazena a pos. inicial do carrinho ao chamar a funcao 
-	push r3   ;mudar pra cima ou pra baixo
-	push r4
-	push r5
-	push r6
-	push r7
-	
-	load r2, CARRINHOPosition
-	loadn r3, #40     ;retira 40 para a nave ir para cima adiciona 40 para ir para baixo
-	
-	inchar r0
-	
-	Direction_Up:
-		loadn r1, #'w'
-		cmp r1, r0
-		jne Direction_Left
-		
-		sub r2, r2, r3     ;retira 40 para a nave ir para cima
-		jmp End_Direction
-
-	Direction_Left:
-		loadn r1, #'a'
-		cmp r1, r0
-	 	jne Direction_Down		
-		dec r2             ;retira 1 para mover para esquerda
-		jmp End_Direction
-		
-	Direction_Down:
-		loadn r1, #'s'
-		cmp r1, r0
-		jne Direction_Right
-		add r2, r2, r3      ;retira 40 para mover para baixo
-		jmp End_Direction
-
-	Direction_Right:
-		loadn r1, #'d'
-		cmp r1, r0
-    jne End_Direction
-		
-		inc r2              ;adiciona 1 para mover para direita
-		jmp End_Direction
-
-	End_Direction:
-		store aux, r2       ;Guarda a posicao do carro
-		load r1, aux        ;Transfere a informacao para o r1
-
-		loadn r3, #1
-		load r2, CARRINHOPosition
-		
-		cmp r0, r3
-		jeq End_Direction_Pops
-				
-		store CARRINHOPosition, r1
-		
-	End_Direction_Pops:       ;Apos finalizar as condicoes de movimentos, da pop
-
-		store PosAnterior, r2
-		pop r7
-		pop r6
-		pop r5
-		pop r4
-		pop r3
-		pop r2
-		pop r1
-		pop r0
-		pop fr
-		
-		rts
