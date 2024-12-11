@@ -17,7 +17,7 @@ main:
 	loadn R2, #0 			; cor branca
 	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
 
-  loadn r1, #327 ;posicao inicial do carrinho 
+  loadn r1, #521 ;posicao inicial do carrinho 
   store CARRINHOPosition, r1    ; inicia o carrinho na posicao
 
   call printCARRINHO
