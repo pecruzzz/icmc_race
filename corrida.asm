@@ -10,11 +10,11 @@ main:
 
   call ApagaTela
   loadn R1, #tela1Linha0	; Endereco onde comeca a primeira linha do cenario!!
-	loadn R2, #2560  			; cor branca!
+	loadn R2, #2560  			; cor lima
 	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
 
   loadn R1, #tela2Linha0	; Endereco onde comeca a primeira linha do cenario!!
-	loadn R2, #0 			; cor branca!
+	loadn R2, #0 			; cor branca
 	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
 
   loadn r1, #327 ;posicao inicial do carrinho 
