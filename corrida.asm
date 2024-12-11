@@ -9051,26 +9051,26 @@ tela7 : var #1200
 
 ;carrinho
   CARRINHO : var #16
-  static CARRINHO + #0, #6 ;   
-  static CARRINHO + #1, #9 ;   
-  static CARRINHO + #2, #11 ;   
+  static CARRINHO + #0, #38 ;   
+  static CARRINHO + #1, #41 ;   
+  static CARRINHO + #2, #42 ;   
   ;2  espacos para o proximo caractere
-  static CARRINHO + #3, #9 ;   
-  static CARRINHO + #4, #6 ;   
+  static CARRINHO + #3, #41 ;   
+  static CARRINHO + #4, #38 ;   
   ;35  espacos para o proximo caractere
-  static CARRINHO + #5, #7 ;   
-  static CARRINHO + #6, #8 ;   
-  static CARRINHO + #7, #14 ;   
-  static CARRINHO + #8, #15 ;   
-  static CARRINHO + #9, #12 ;   
-  static CARRINHO + #10, #6 ;   
+  static CARRINHO + #5, #39 ;   
+  static CARRINHO + #6, #40 ;   
+  static CARRINHO + #7, #46 ;   
+  static CARRINHO + #8, #47 ;   
+  static CARRINHO + #9, #44 ;   
+  static CARRINHO + #10, #38 ;   
   ;35  espacos para o proximo caractere
-  static CARRINHO + #11, #6 ;   
-  static CARRINHO + #12, #10 ;   
-  static CARRINHO + #13, #13 ;   
+  static CARRINHO + #11, #38 ;   
+  static CARRINHO + #12, #42 ;   
+  static CARRINHO + #13, #45 ;   
   ;2  espacos para o proximo caractere
-  static CARRINHO + #14, #10 ;   
-  static CARRINHO + #15, #6 ;   
+  static CARRINHO + #14, #42 ;   
+  static CARRINHO + #15, #38 ;   
 
 CARRINHOGaps : var #16
   static CARRINHOGaps + #0, #0
