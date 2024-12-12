@@ -5,11 +5,12 @@ loadn R4, #40 ; N° de colunas
 msgPontuacao: string "metros"
 msgLose: string "Seu carro bateu em alta velocidade, seu bração!                                                                                        Deseja jogar novamente?                         [s]/[n]"
 
-loadn r1, #0			; Contador do vetor de posições de objetos
-loadn r2, #0			; Contador da pontuação
-loadn r3, #8000			; Limite da pontuação	
 
 main:
+
+  loadn r1, #0			; Contador do vetor de posições de objetos
+  loadn r2, #0			; Contador da pontuação
+  loadn r3, #500			; Limite da pontuação	
 
   call ApagaTela
   call ImprimeMenu
@@ -26,7 +27,7 @@ main:
     call printaPontuacao
     inc r2
     cmp r2, r3
-    jeq ImprimeMenu
+    jeq main
     call printObj
     call MoveCarrinho
     jmp loop
@@ -380,7 +381,7 @@ printObj:						; Funcao que imprime os objetos
 	loadn r7, #' '			; Armazena espaço para apagar objeto
 	
 incCountPrintObj:
-  call Delay
+  	call Delay
 	loadi r4, r3				; Carrega o valor da posicao de r3 para r4
 	call ShouldIEraseOrShouldINot		; Funcao que verifica se o objeto ainda esta na tela
 	sub r4, r4, r6				; Subtrai 1 a posicao do objeto
@@ -433,7 +434,7 @@ ShouldIEraseOrShouldINot: 		; Verifica se o objeto ultrapassou a tela, se não, 
 	jeq NotPrint
 	outchar r7, r4
 NotPrint:
-  pop r1
+  	pop r1
 	pop r0
 rts
 

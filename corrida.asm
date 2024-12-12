@@ -4,8 +4,7 @@ loadn R4, #40 ; N° de colunas
 
 msgPontuacao: string "metros"
 
-loadn r2, #0			; Contador da pontuação
-loadn r3, #8000			; Limite da pontuação	
+loadn r3, #100		; Limite da pontuação	
 
 main:
 
@@ -13,6 +12,7 @@ main:
   call ImprimeMenu
   call ImprimePista
   
+  loadn r2, #0			; Contador da pontuação
   loadn R0, #521 ;posicao inicial do carrinho 
   store CARRINHOPosition, r0    ; inicia o carrinho na posicao
 
@@ -23,7 +23,7 @@ main:
     call printaPontuacao
     inc r2
     cmp r2, r3
-    jeq ImprimeMenu
+    jeq main
     call MoveCarrinho
     jmp loop
 
