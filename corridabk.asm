@@ -416,7 +416,7 @@ ShouldIPrintOrShouldINot:		; Verifica se o objeto ultrapassou a tela, se não, i
   	loadn r1, #40
   	div r0, r3, r1
   	div r1, r4, r1
-  	cmp r1, r0
+  	cmp r0, r1
   	jle NotPrint
   	outchar r5, r4
 NotPrint:
@@ -432,7 +432,7 @@ ShouldIEraseOrShouldINot: 		; Verifica se o objeto ultrapassou a tela, se não, 
   loadn r1, #40
   div r0, r3, r1
   div r1, r4, r1
-  cmp r1, r0
+  cmp r0, r1
   jle NotErase
   outchar r7, r4
 NotErase:
