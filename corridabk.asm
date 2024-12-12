@@ -10,7 +10,7 @@ main:
 
   loadn r1, #0			; Contador do vetor de posições de objetos
   loadn r2, #0			; Contador da pontuação
-  loadn r3, #500			; Limite da pontuação	
+  loadn r3, #2000		; Limite da pontuação	
 
   call ApagaTela
   call ImprimeMenu
@@ -394,13 +394,14 @@ incCountPrintObj:
 	cmp r1, r2				; Compara se iterador chegou ao fim
 	jne incCountPrintObj
 	
+	loadn r1, #40
+	div r2, r3, r1
+	sub r4, r4, r6
+	div r4, r4, r1
+	cmp r4, r3			; Compara se o ultimo objeto chegou ao fim da tela
 	pop r7
 	pop r6
 	pop r5
-	loadn r2, #40
-  loadn r3, #0
-  mod r2, r4, r2
-	cmp r4, r3			; Compara se o ultimo objeto chegou ao fim da tela
 	pop r4
 	pop r3
 	pop r2
@@ -410,32 +411,34 @@ rts
 
 ShouldIPrintOrShouldINot:		; Verifica se o objeto ultrapassou a tela, se não, imprime
 	push r0
-  push r1
-  push r2
-  loadn r1, #40
-	loadn r0, #0
-  mod r1, r4, r1
-	cmp r1, r0
-  jeq NotPrint
-  outchar r5, r4
+	push r1
+  	push r2
+  	loadn r1, #40
+  	div r0, r3, r1
+  	div r1, r4, r1
+  	cmp r1, r0
+  	jle NotPrint
+  	outchar r5, r4
 NotPrint:
-  pop r2
-  pop r1
-	pop r0
+	pop r2
+	pop r1
+  	pop r0
 rts
 
 ShouldIEraseOrShouldINot: 		; Verifica se o objeto ultrapassou a tela, se não, apaga
-	push r0
-	push r1
+  push r0
+  push r1
+  push r2
   loadn r1, #40
-	loadn r0, #0
-  mod r1, r4, r1
-	cmp r1, r0
-	jeq NotPrint
-	outchar r7, r4
-NotPrint:
-  	pop r1
-	pop r0
+  div r0, r3, r1
+  div r1, r4, r1
+  cmp r1, r0
+  jle NotErase
+  outchar r7, r4
+NotErase:
+  pop r2
+  pop r1
+  pop r0
 rts
 
 ;-------------------------------------------------------
@@ -505,7 +508,6 @@ LoopPrintaPontua:
 	outchar r3, r0
 	dec r0
 	jz StopPrintaPontua
-  call calculaMetro
 	div r2, r2, r1
 	jnz LoopPrintaPontua
 	
@@ -520,19 +522,6 @@ StopPrintaPontua:
 	pop r1
 	pop r0
 rts
-
-calculaMetro:
-
-  push r1
-
-  loadn r1, #10
-  mul r2, r2, r1
-  loadn r1, #11
-  div r2, r2, r1
-
-  pop r1
-
-rts  
 
 printScore:				; Imprime o mensagem de score
 	loadn r0, #0
