@@ -6,6 +6,8 @@ aux2: var #1
 CARRINHOPosition: var #1
 PosicaoAnteriorCarrinho: var #1
 
+
+
 main:
 
   call ApagaTela
@@ -17,15 +19,13 @@ main:
 	loadn R2, #0 			; cor branca!
 	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
 
-  loadn r1, #327 ;posicao inicial do carrinho 
-  store CARRINHOPosition, r1    ; inicia o carrinho na posicao
-
-  call printCARRINHO
+  loadn R0, #521 ;posicao inicial do carrinho 
+  loadn R4, #40
+  store CARRINHOPosition, r0    ; inicia o carrinho na posicao
 
   loop:
     call MoveCarrinho
     call Delay
-    call controlaCarrinho
     jmp loop
 
 halt
@@ -35,27 +35,6 @@ halt
 ;********************************************************
 ;                       FUNÇÔES CARRINHO
 ;********************************************************
-controlaCarrinho:; checa se o carrinho se moveu
-
-  push r0
-  push r1
-
-  load r0, CARRINHOPosition
-  load r1, PosicaoAnteriorCarrinho
-
-  cmp r0, r1
-  jeq fim_controla
-
-  ;call printtela1Screen
-  call printCARRINHO
-
-  fim_controla:
-
-    pop r1
-    pop r0
-
-    rts
-  
 
 apagarCarrinhoDir:
 
@@ -88,6 +67,69 @@ apagarCarrinhoDir:
   pop r0
   pop fr
   rts
+
+  MoveCarrinho:
+
+	push r1 
+	push r2
+	push r3
+
+  loadn r2, #'w'
+  loadn r3, #'s'
+  
+  call printCARRINHO
+
+  inchar r1
+  cmp r1, r2
+  ceq MoveCarrinhoUp
+  cmp r1, r3
+  ceq MoveCarrinhoDown
+
+  pop r3
+  pop r2
+  pop r1
+
+rts 
+
+MoveCarrinhoUp:
+  push r1
+  push r2
+
+  loadn r1, #40
+  div r1, r0, r1
+  loadn r2, #6
+  cmp r2, r1
+  jeq NaoMove
+  call apagarCARRINHO
+  sub r0, r0, r4
+  store CARRINHOPosition, r0
+  call printCARRINHO
+
+rts
+
+MoveCarrinhoDown:
+  push r1
+  push r2
+
+  loadn r1, #40
+  div r1, r0, r1
+  loadn r2, #21
+  cmp r2, r1  
+  jeq NaoMove
+  call apagarCARRINHO
+
+  add r0, r0, r4
+  store CARRINHOPosition, r0
+  call printCARRINHO
+
+rts
+
+NaoMove:
+  pop r2
+  pop r1
+rts
+
+
 ;-------------------------------------------------------
 
 ;********************************************************
@@ -195,100 +237,6 @@ Delay:
 	pop r0
 	
 	rts
-
-MoveCarrinho:
-	push r0 
-	push r1 
-	push r2
-	push r3
-	
-	call Direction	
-	
-	jmp MoveCarrinho_End
-	
-	MoveCarrinho_End:
-		pop r0 
-		pop r1 
-		pop r2
-		pop r3
-
-		rts 
-
-	
-Direction:          ;Funcao que le a direcao para qual o carrinho vai
-	push fr
-	push r0   ;recebe a telca (w, A, S, D)
-	push r1
-	push r2   ;armazena a pos. inicial do carrinho ao chamar a funcao 
-	push r3   ;mudar pra cima ou pra baixo
-	push r4
-	push r5
-	push r6
-	push r7
-	
-	load r2, CARRINHOPosition
-	loadn r3, #40     ;retira 40 para a nave ir para cima adiciona 40 para ir para baixo
-	
-	inchar r0
-	
-	Direction_Up:
-		loadn r1, #'w'
-		cmp r1, r0
-		jne Direction_Down
-		call apagarCARRINHO
-		sub r2, r2, r3     ;retira 40 para a nave ir para cima
-		jmp End_Direction
-
-	Direction_Left:
-		loadn r1, #'a'
-		cmp r1, r0
-	 	jne Direction_Down
-    call apagarCARRINHO		
-		dec r2             ;retira 1 para mover para esquerda
-		jmp End_Direction
-		
-	Direction_Down:
-		loadn r1, #'s'
-		cmp r1, r0
-		jne Direction_Right
-    call apagarCARRINHO
-		add r2, r2, r3      ;retira 40 para mover para baixo
-		jmp End_Direction
-
-	Direction_Right:
-		loadn r1, #'d'
-		cmp r1, r0
-    jne End_Direction
-    call apagarCARRINHO
-		inc r2              ;adiciona 1 para mover para direita
-		jmp End_Direction
-
-	End_Direction:
-		store aux, r2       ;Guarda a posicao do carro
-		load r1, aux        ;Transfere a informacao para o r1
-
-		loadn r3, #1
-		load r2, CARRINHOPosition
-		
-		cmp r0, r3
-		jeq End_Direction_Pops
-				
-		store CARRINHOPosition, r1
-		
-	End_Direction_Pops:       ;Apos finalizar as condicoes de movimentos, da pop
-
-		store PosicaoAnteriorCarrinho, r2
-		pop r7
-		pop r6
-		pop r5
-		pop r4
-		pop r3
-		pop r2
-		pop r1
-		pop r0
-		pop fr
-		
-		rts
 
 ;********************************************************
 ;                       APAGA TELA
@@ -611,8 +559,8 @@ tela5Linha21 : string "@@   ;;;;;   ;;  ;; ;;     ;;;;;      @@"
 tela5Linha22 : string "@@   ;; ;;;  ;;  ;; ;;  ;; ;;         @@"
 tela5Linha23 : string "@@   ;;  ;;;  ;;;;   ;;;;   ;;;;      @@"
 tela5Linha24 : string "@@                                    @@"
-tela5Linha25 : string "@@                                    @@"
-tela5Linha26 : string "@@           Aperte Espaço            @@"
+tela5Linha25 : string "@@           Aperte Espaco            @@"
+tela5Linha26 : string "@@                                    @@"
 tela5Linha27 : string "@@                                    @@"
 tela5Linha28 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 tela5Linha29 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
