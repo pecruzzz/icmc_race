@@ -105,6 +105,9 @@ MoveCarrinhoUp:
   store CARRINHOPosition, r0
   call printCARRINHO
 
+  pop r2
+  pop r1
+
 rts
 
 MoveCarrinhoDown:
@@ -121,6 +124,9 @@ MoveCarrinhoDown:
   add r0, r0, r4
   store CARRINHOPosition, r0
   call printCARRINHO
+
+  pop r2
+  pop r1
 
 rts
 
@@ -407,8 +413,8 @@ tela0Linha29 : string "                                        "
 
 ; Declara e preenche tela linha por linha (40 caracteres):
 tela1Linha0  : string "(((((((((((((((((((((((((((((((((((((((("
-tela1Linha0  : string "(((((((((((((((((((((((((((((((((((((((("
-tela1Linha0  : string "(((((((((((((((((((((((((((((((((((((((("
+tela1Linha1  : string "(((((((((((((((((((((((((((((((((((((((("
+tela1Linha2  : string "(((((((((((((((((((((((((((((((((((((((("
 tela1Linha3  : string "(((((((((((((((((((((((((((((((((((((((("
 tela1Linha4  : string "(((((((((((((((((((((((((((((((((((((((("
 tela1Linha5  : string "                                        "
@@ -438,8 +444,8 @@ tela1Linha28 : string "(((((((((((((((((((((((((((((((((((((((("
 tela1Linha29 : string "(((((((((((((((((((((((((((((((((((((((("
 
 tela2Linha0  : string "                                        "
-tela2Linha0  : string "                                        "
-tela2Linha0  : string "                                        "
+tela2Linha1  : string "                                        "
+tela2Linha2  : string "                                        "
 tela2Linha3  : string "                                        "
 tela2Linha4  : string "                                        "
 tela2Linha5  : string "########################################"
