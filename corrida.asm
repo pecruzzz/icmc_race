@@ -12,11 +12,11 @@ main:
 
   call ApagaTela
   loadn R1, #tela1Linha0	; Endereco onde comeca a primeira linha do cenario!!
-	loadn R2, #2560  			; cor branca!
+	loadn R2, #2560  			; cor lima
 	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
 
   loadn R1, #tela2Linha0	; Endereco onde comeca a primeira linha do cenario!!
-	loadn R2, #0 			; cor branca!
+	loadn R2, #0 			; cor branca
 	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
 
   loadn R0, #521 ;posicao inicial do carrinho 
@@ -33,7 +33,7 @@ halt
 ;----------------------------------------------
 
 ;********************************************************
-;                       FUNÇÔES CARRINHO
+;                          FUNÇÔES
 ;********************************************************
 
 apagarCarrinhoDir:
@@ -373,7 +373,7 @@ apagarCARRINHO:
   rts
 
 
-  ;telas
+;telas
 tela0Linha0  : string "                                        "
 tela0Linha1  : string "                                        "
 tela0Linha2  : string "                                        "
@@ -411,7 +411,7 @@ tela1Linha0  : string "(((((((((((((((((((((((((((((((((((((((("
 tela1Linha0  : string "(((((((((((((((((((((((((((((((((((((((("
 tela1Linha3  : string "(((((((((((((((((((((((((((((((((((((((("
 tela1Linha4  : string "(((((((((((((((((((((((((((((((((((((((("
-tela1Linha5  : string "########################################"
+tela1Linha5  : string "                                        "
 tela1Linha6  : string "                                        "
 tela1Linha7  : string "                                        "
 tela1Linha8  : string "                                        "
@@ -430,7 +430,7 @@ tela1Linha20 : string "                                        "
 tela1Linha21 : string "                                        "
 tela1Linha22 : string "                                        "
 tela1Linha23 : string "                                        "
-tela1Linha24 : string "########################################"
+tela1Linha24 : string "                                        "
 tela1Linha25 : string "(((((((((((((((((((((((((((((((((((((((("
 tela1Linha26 : string "(((((((((((((((((((((((((((((((((((((((("
 tela1Linha27 : string "(((((((((((((((((((((((((((((((((((((((("
@@ -445,19 +445,19 @@ tela2Linha4  : string "                                        "
 tela2Linha5  : string "########################################"
 tela2Linha6  : string "                                        "
 tela2Linha7  : string "                                        "
-tela2Linha8  : string "             %         %           %    "
-tela2Linha9  : string "             %         %           %    "
-tela2Linha10 : string "             %         %           %    "
-tela2Linha11 : string "        #####$    #####$      #####$    "
+tela2Linha8  : string "                                        "
+tela2Linha9  : string "                                        "
+tela2Linha10 : string "                                        "
+tela2Linha11 : string "                                        "
 tela2Linha12 : string "                                        "
 tela2Linha13 : string "                                        "
 tela2Linha14 : string "                                        "
 tela2Linha15 : string "                                        "
 tela2Linha16 : string "                                        "
-tela2Linha17 : string "         %         %           %        "
-tela2Linha18 : string "         %         %           %        "
-tela2Linha19 : string "         %         %           %        "
-tela2Linha20 : string "    #####$    #####$      #####$        "
+tela2Linha17 : string "                                        "
+tela2Linha18 : string "                                        "
+tela2Linha19 : string "                                        "
+tela2Linha20 : string "                                        "
 tela2Linha21 : string "                                        "
 tela2Linha22 : string "                                        "
 tela2Linha23 : string "                                        "
