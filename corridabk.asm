@@ -410,6 +410,7 @@ rts
 ShouldIPrintOrShouldINot:		; Verifica se o objeto ultrapassou a tela, se não, imprime
 	push r0
   push r1
+  push r2
   loadn r1, #40
 	loadn r0, #0
   mod r1, r4, r1
@@ -417,10 +418,11 @@ ShouldIPrintOrShouldINot:		; Verifica se o objeto ultrapassou a tela, se não, i
   jeq NotPrint
   outchar r5, r4
 NotPrint:
-	pop r0
+  pop r2
   pop r1
+	pop r0
 rts
-	
+
 ShouldIEraseOrShouldINot: 		; Verifica se o objeto ultrapassou a tela, se não, apaga
 	push r0
 	push r1
