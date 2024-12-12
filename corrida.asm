@@ -11,13 +11,8 @@ PosicaoAnteriorCarrinho: var #1
 main:
 
   call ApagaTela
-  loadn R1, #tela1Linha0	; Endereco onde comeca a primeira linha do cenario!!
-	loadn R2, #2560  			; cor lima
-	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
-
-  loadn R1, #tela2Linha0	; Endereco onde comeca a primeira linha do cenario!!
-	loadn R2, #0 			; cor branca
-	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
+  call ImprimeMenu
+  call ImprimePista
 
   loadn R0, #521 ;posicao inicial do carrinho 
   loadn R4, #40
@@ -139,7 +134,7 @@ rts
 ;-------------------------------------------------------
 
 ;********************************************************
-;                       IMPRIME TELA2
+;                       IMPRIME TELAS
 ;********************************************************	
 
 ImprimeTela2: 	;  Rotina de Impresao de Cenario na Tela Inteira
@@ -221,9 +216,66 @@ ImprimeStr2:	;  Rotina de Impresao de Mensagens:    r0 = Posicao da tela que o p
 	pop r1
 	pop r0
 	rts
-	
 
-;------------------------
+;********************************************************
+;                       IMPRIME MENU
+;********************************************************	
+
+ImprimeMenu:
+  push r1
+  push r2
+  push r3
+  push r4
+
+  loadn R1, #tela1Linha0	; Endereco onde comeca a primeira linha do cenario!!
+	loadn R2, #2560  			; cor lima
+	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
+
+  loadn R1, #tela5Linha0
+  loadn r2, #0
+  loadn r3, #' '
+
+  call ImprimeTela2
+
+  loopMenu:
+  inchar r4
+
+  cmp r4, r3
+  jne loopMenu
+
+  call ApagaTela
+
+  pop r4
+  pop r3
+  pop r2
+  pop r1
+  rts
+
+;--------------------------------------------------------
+
+;********************************************************
+;                       IMPRIME PISTA
+;********************************************************	
+
+ImprimePista:
+
+  push r1
+  push r2
+
+  loadn R1, #tela1Linha0	; Endereco onde comeca a primeira linha do cenario!!
+	loadn R2, #2560  			; cor lima
+	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
+
+  loadn R1, #tela2Linha0
+  loadn r2, #0
+
+  call ImprimeTela2
+
+  pop r2
+  pop r1
+  rts
+
+
 
 Delay:
   push r0 
@@ -565,8 +617,8 @@ tela5Linha21 : string "@@   ;;;;;   ;;  ;; ;;     ;;;;;      @@"
 tela5Linha22 : string "@@   ;; ;;;  ;;  ;; ;;  ;; ;;         @@"
 tela5Linha23 : string "@@   ;;  ;;;  ;;;;   ;;;;   ;;;;      @@"
 tela5Linha24 : string "@@                                    @@"
-tela5Linha25 : string "@@           Aperte Espaco            @@"
-tela5Linha26 : string "@@                                    @@"
+tela5Linha25 : string "@@                                    @@"
+tela5Linha26 : string "@@           Aperte Espaco            @@"
 tela5Linha27 : string "@@                                    @@"
 tela5Linha28 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 tela5Linha29 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
