@@ -240,32 +240,32 @@ rand: var #80				; Vetor de posições aleatórias dos objetos
 	static rand + #7, #559
 	static rand + #8, #599
 	static rand + #9, #639
-	static rand + #10, #559
-	static rand + #11, #559
-	static rand + #12, #559
-	static rand + #13, #559
-	static rand + #14, #559
-	static rand + #15, #559
-	static rand + #16, #559
-	static rand + #17, #559
-	static rand + #18, #559
-	static rand + #19, #559
-	static rand + #20, #559
-	static rand + #21, #559
-	static rand + #22, #559
-	static rand + #23, #559
-	static rand + #24, #559
-	static rand + #25, #559
+	static rand + #10, #679
+	static rand + #11, #719
+	static rand + #12, #759
+	static rand + #13, #799
+	static rand + #14, #839
+	static rand + #15, #879
+	static rand + #16, #919
+	static rand + #17, #959
+	static rand + #18, #639
+	static rand + #19, #599
+	static rand + #20, #679
+	static rand + #21, #719
+	static rand + #22, #759
+	static rand + #23, #799
+	static rand + #24, #839
+	static rand + #25, #279
 	static rand + #26, #559
 	static rand + #27, #559
-	static rand + #28, #479
-	static rand + #29, #479
-	static rand + #30, #479
-	static rand + #31, #479
-	static rand + #32, #479
-	static rand + #33, #479
-	static rand + #34, #479
-	static rand + #35, #479
+	static rand + #28, #619
+	static rand + #29, #618
+	static rand + #30, #679
+	static rand + #31, #719
+	static rand + #32, #759
+	static rand + #33, #799
+	static rand + #34, #839
+	static rand + #35, #879
 	static rand + #36, #479
 	static rand + #37, #479
 	static rand + #38, #479
@@ -280,16 +280,16 @@ rand: var #80				; Vetor de posições aleatórias dos objetos
 	static rand + #47, #479
 	static rand + #48, #479
 	static rand + #49, #479
-	static rand + #50, #479
-	static rand + #51, #479
-	static rand + #52, #479
-	static rand + #53, #479
-	static rand + #54, #479
+	static rand + #50, #279
+	static rand + #51, #319
+	static rand + #52, #359
+	static rand + #53, #399
+	static rand + #54, #439
 	static rand + #55, #479
-	static rand + #56, #479
-	static rand + #57, #479
-	static rand + #58, #479
-	static rand + #59, #479
+	static rand + #56, #519
+	static rand + #57, #559
+	static rand + #58, #599
+	static rand + #59, #639
 	static rand + #60, #479
 	static rand + #61, #479
 	static rand + #62, #479
@@ -381,7 +381,7 @@ printObj:						; Funcao que imprime os objetos
 	loadn r7, #' '			; Armazena espaço para apagar objeto
 	
 incCountPrintObj:
-  	call Delay
+  	call Delay2
 	loadi r4, r3				; Carrega o valor da posicao de r3 para r4
 	call ShouldIEraseOrShouldINot		; Funcao que verifica se o objeto ainda esta na tela
 	sub r4, r4, r6				; Subtrai 1 a posicao do objeto
@@ -684,6 +684,25 @@ ImprimePista:
 
 
 
+Delay2:
+  push r0 
+	push r2 
+	
+	loadn r2, #10  ; a
+	
+  loopi:				; (dois loops de decremento conforme dicas de jogos)
+		loadn r0, #100	; b
+  loopj: 
+		dec r0 			 
+		jnz loopj	
+		dec r2
+		jnz loopi
+	
+	pop r2
+	pop r0
+	
+	rts
+
 Delay:
   push r0 
 	push r2 
@@ -691,7 +710,7 @@ Delay:
 	loadn r2, #10  ; a
 	
   loopi:				; (dois loops de decremento conforme dicas de jogos)
-		loadn r0, #3000	; b
+		loadn r0, #2500	; b
   loopj: 
 		dec r0 			 
 		jnz loopj	
