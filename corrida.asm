@@ -17,7 +17,6 @@ main:
   store CARRINHOPosition, r0    ; inicia o carrinho na posicao
 
 
-
   loop:
     call Delay
     call printaPontuacao

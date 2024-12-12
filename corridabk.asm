@@ -1,9 +1,9 @@
 CARRINHOPosition: var #1
 carrofederupaPosition : var #1
+ScorePlayer: var #1
 loadn R4, #40 ; N° de colunas
 
 msgPontuacao: string "metros"
-msgLose: string "Seu carro bateu em alta velocidade, seu bração!                                                                                        Deseja jogar novamente?                         [s]/[n]"
 
 
 main:
@@ -450,8 +450,8 @@ Imprimestr:			;  Rotina de Impresao de Mensagens:
 				; Obs: a mensagem sera' impressa ate' encontrar "/0"
 				
 				; Empilhamento: protege os registradores utilizados na subrotina na pilha para preservar seu valor				
-	push r0			; Posicao da tela que o primeiro caractere da mensagem sera' impresso
-	push r1			; endereco onde comeca a mensagem
+				; Posicao da tela que o primeiro caractere da mensagem sera' impresso
+				; endereco onde comeca a mensagem
 	push r2			; cor da mensagem
 	push r3			; Criterio de parada
 	push r4			; Recebe o codigo do caractere da Mensagem
@@ -510,6 +510,8 @@ LoopPrintaPontua:
 	jnz LoopPrintaPontua
 	
 StopPrintaPontua:
+
+	store ScorePlayer, r2
 	
 	pop r7
 	pop r6
@@ -627,39 +629,74 @@ ImprimeStr2:	;  Rotina de Impresao de Mensagens:    r0 = Posicao da tela que o p
 	pop r0
 	rts
 
+Imprimestr:			;  Rotina de Impresao de Mensagens:    
+				; r0 = Posicao da tela que o primeiro caractere da mensagem sera' impresso
+				; r1 = endereco onde comeca a mensagem
+				; r2 = cor da mensagem
+				; Obs: a mensagem sera' impressa ate' encontrar "/0"
+				
+				; Empilhamento: protege os registradores utilizados na subrotina na pilha para preservar seu valor				
+	push r0			; Posicao da tela que o primeiro caractere da mensagem sera' impresso
+	push r1			; endereco onde comeca a mensagem
+	push r2			; cor da mensagem
+	push r3			; Criterio de parada
+	push r4			; Recebe o codigo do caractere da Mensagem
+	
+	loadn r3, #'\0'	; Criterio de parada
+
+ImprimestrLoop:	
+	loadi r4, r1		; aponta para a memoria no endereco r1 e busca seu conteudo em r4
+	cmp r4, r3		; compara o codigo do caractere buscado com o criterio de parada
+	jeq ImprimestrSai	; goto Final da rotina
+	add r4, r2, r4		; soma a cor (r2) no codigo do caractere em r4
+	outchar r4, r0		; imprime o caractere cujo codigo está em r4 na posicao r0 da tela
+	inc r0			; incrementa a posicao que o proximo caractere sera' escrito na tela
+	inc r1			; incrementa o ponteiro para a mensagem na memoria
+	jmp ImprimestrLoop	; goto Loop
+	
+ImprimestrSai:			; Desempilhamento: resgata os valores dos registradores utilizados na Subrotina da Pilha
+
+	pop r4	
+	pop r3
+	pop r2
+	pop r1
+	pop r0
+rts				; retorno da subrotina
+
+
 ;********************************************************
 ;                       IMPRIME MENU
 ;********************************************************	
 
 ImprimeMenu:
-  push r1
-  push r2
-  push r3
-  push r4
+	push r1
+  	push r2
+  	push r3
+  	push r4
 
-  loadn R1, #tela1Linha0	; Endereco onde comeca a primeira linha do cenario!!
+  	loadn R1, #tela1Linha0	; Endereco onde comeca a primeira linha do cenario!!
 	loadn R2, #2560  			; cor lima
 	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
 
-  loadn R1, #tela5Linha0
-  loadn r2, #0
-  loadn r3, #' '
+  	loadn R1, #tela5Linha0
+  	loadn r2, #0
+  	loadn r3, #' '
 
-  call ImprimeTela2
+  	call ImprimeTela2
 
-  loopMenu:
-  inchar r4
+  	loopMenu:
+  	inchar r4
 
-  cmp r4, r3
-  jne loopMenu
+  	cmp r4, r3
+  	jne loopMenu
 
-  call ApagaTela
+  	call ApagaTela
 
-  pop r4
-  pop r3
-  pop r2
-  pop r1
-  rts
+  	pop r4
+  	pop r3
+  	pop r2
+  	pop r1
+  	rts
 
 ;--------------------------------------------------------
 
@@ -709,7 +746,43 @@ Delay:
 ;                       FIM DE JOGO
 ;********************************************************
 Lose:
-  halt
+	push r0
+	push r1
+	push r2
+	push r3
+
+	call ApagaTela
+
+  	loadn R1, #tela6Linha0	; Endereco onde comeca a primeira linha do cenario!!
+	loadn R2, #0  			; cor lima
+	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
+
+  	loopLose:
+  	inchar r4
+  	loadn r3, #'s'
+  	cmp r4, r3
+  	jeq main
+	loadn r3, #'S'
+  	cmp r4, r3
+  	jeq main
+
+	loadn r3, #'n'
+	cmp r4, r3
+	jeq losefim
+	loadn r3, #'N'
+	cmp r4, r3
+	jne loopLose
+
+	losefim:
+  	call ApagaTela
+	halt
+
+	pop r3
+	pop r2
+	pop r1
+	pop r0
+	rts
+
 
 
 
@@ -926,6 +999,37 @@ tela5Linha26 : string "@@           Aperte Espaco            @@"
 tela5Linha27 : string "@@                                    @@"
 tela5Linha28 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 tela5Linha29 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+
+tela6Linha0  : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+tela6Linha1  : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+tela6Linha2  : string "@@                                    @@"
+tela6Linha3  : string "@@                                    @@"
+tela6Linha4  : string "@@                                    @@"
+tela6Linha6  : string "@@                                    @@"
+tela6Linha5  : string "@@                                    @@"
+tela6Linha7  : string "@@                                    @@"
+tela6Linha8  : string "@@         Seu carro bateu            @@"
+tela6Linha9  : string "@@       em alta velocidade           @@"
+tela6Linha10 : string "@@                                    @@"
+tela6Linha11 : string "@@           SEU BRACAO!              @@"
+tela6Linha12 : string "@@                                    @@"
+tela6Linha13 : string "@@                                    @@"
+tela6Linha14 : string "@@                                    @@"
+tela6Linha15 : string "@@                                    @@"
+tela6Linha16 : string "@@                                    @@"
+tela6Linha17 : string "@@      Deseja jogar novamente?       @@"
+tela6Linha18 : string "@@                                    @@"
+tela6Linha19 : string "@@               s|n                  @@"
+tela6Linha20 : string "@@                                    @@"
+tela6Linha21 : string "@@                                    @@"
+tela6Linha22 : string "@@                                    @@"
+tela6Linha23 : string "@@                                    @@"
+tela6Linha24 : string "@@                                    @@"
+tela6Linha25 : string "@@                                    @@"
+tela6Linha26 : string "@@                                    @@"
+tela6Linha27 : string "@@                                    @@"
+tela6Linha28 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+tela6Linha29 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 
 carrofederupa : var #16
   static carrofederupa + #0, #2342 ;   &
