@@ -1,22 +1,17 @@
-; Variaveis auxiliares para movimentos
-aux: var #1
-aux1: var #1
-aux2: var #1   
-
 CARRINHOPosition: var #1
-PosicaoAnteriorCarrinho: var #1
-
-
+carrofederupaPosition : var #1
+loadn R4, #40 ; N° de colunas
 
 main:
 
   call ApagaTela
   call ImprimeMenu
   call ImprimePista
-
+  
   loadn R0, #521 ;posicao inicial do carrinho 
-  loadn R4, #40
   store CARRINHOPosition, r0    ; inicia o carrinho na posicao
+
+
 
   loop:
     call MoveCarrinho
@@ -25,42 +20,127 @@ main:
 
 halt
 
+
 ;----------------------------------------------
 
 ;********************************************************
-;                          FUNÇÔES
+;                          FUNÇÔES CARRRINHO
 ;********************************************************
 
-apagarCarrinhoDir:
+;carrinho
+  CARRINHO : var #16
+  static CARRINHO + #0, #2854 ;   
+  static CARRINHO + #1, #2857 ;   
+  static CARRINHO + #2, #2859 ;   
+  ;2  espacos para o proximo caractere
+  static CARRINHO + #3, #2857 ;   
+  static CARRINHO + #4, #2854 ;   
+  ;35  espacos para o proximo caractere
+  static CARRINHO + #5, #2855 ;   
+  static CARRINHO + #6, #2856 ;   
+  static CARRINHO + #7, #2862 ;   
+  static CARRINHO + #8, #2863 ;   
+  static CARRINHO + #9, #2860 ;   
+  static CARRINHO + #10, #2854 ;   
+  ;35  espacos para o proximo caractere
+  static CARRINHO + #11, #2854 ;   
+  static CARRINHO + #12, #2858 ;   
+  static CARRINHO + #13, #2861 ;   
+  ;2  espacos para o proximo caractere
+  static CARRINHO + #14, #2858 ;   
+  static CARRINHO + #15, #2854 ;   
 
-  push fr
-  push r0
-  push r1
-  push r2
-  push r3
-  push r4
+CARRINHOGaps : var #16
+  static CARRINHOGaps + #0, #0
+  static CARRINHOGaps + #1, #0
+  static CARRINHOGaps + #2, #0
+  static CARRINHOGaps + #3, #1
+  static CARRINHOGaps + #4, #0
+  static CARRINHOGaps + #5, #34
+  static CARRINHOGaps + #6, #0
+  static CARRINHOGaps + #7, #0
+  static CARRINHOGaps + #8, #0
+  static CARRINHOGaps + #9, #0
+  static CARRINHOGaps + #10, #0
+  static CARRINHOGaps + #11, #34
+  static CARRINHOGaps + #12, #0
+  static CARRINHOGaps + #13, #0
+  static CARRINHOGaps + #14, #1
+  static CARRINHOGaps + #15, #0
 
-  load r0, CARRINHOPosition
-  store aux1, r0
-  load r0, aux1
-  loadn r1, #40
-  loadn r2, #' '
-  loadn r3, #0
-  loadn r4, #3
+printCARRINHO:
+  push R0
+  push R1
+  push R2
+  push R3
+  push R4
+  push R5
+  push R6
 
-  loopApagaDir:
-  inc r3
-  outchar r2, r0
-  add r0, r0, r1
-  cmp r3, r4
-  jne loopApagaDir
+  loadn R0, #CARRINHO
+  loadn R1, #CARRINHOGaps
+  load R2, CARRINHOPosition
+  loadn R3, #16 ;tamanho CARRINHO
+  loadn R4, #0 ;incremetador
+
+  printCARRINHOLoop:
+    add R5,R0,R4
+    loadi R5, R5
+
+    add R6,R1,R4
+    loadi R6, R6
+
+    add R2, R2, R6
+
+    outchar R5, R2
+
+    inc R2
+     inc R4
+     cmp R3, R4
+    jne printCARRINHOLoop
+
+  pop R6
+  pop R5
+  pop R4
+  pop R3
+  pop R2
+  pop R1
+  pop R0
+  rts
+
+apagarCARRINHO:
+  push R0
+  push R1
+  push R2
+  push R3
+  push R4
+  push R5
+
+  loadn R0, #3967
+  loadn R1, #CARRINHOGaps
+  load R2, CARRINHOPosition
+  loadn R3, #16 ;tamanho CARRINHO
+  loadn R4, #0 ;incremetador
+
+  apagarCARRINHOLoop:
+    add R5,R1,R4
+    loadi R5, R5
+
+    add R2,R2,R5
+    outchar R0, R2
+
+    inc R2
+     inc R4
+     cmp R3, R4
+    jne apagarCARRINHOLoop
+
+  pop R5
+  pop R4
+  pop R3
+  pop R2
+  pop R1
+  pop R0
   
-  pop r4
-  pop r3
-  pop r2
-  pop r1
-  pop r0
-  pop fr
   rts
 
   MoveCarrinho:
@@ -315,120 +395,7 @@ ApagaTela:
 	pop r0
 	rts
 
-;carrinho
-  CARRINHO : var #16
-  static CARRINHO + #0, #38 ;   
-  static CARRINHO + #1, #41 ;   
-  static CARRINHO + #2, #42 ;   
-  ;2  espacos para o proximo caractere
-  static CARRINHO + #3, #41 ;   
-  static CARRINHO + #4, #38 ;   
-  ;35  espacos para o proximo caractere
-  static CARRINHO + #5, #39 ;   
-  static CARRINHO + #6, #40 ;   
-  static CARRINHO + #7, #46 ;   
-  static CARRINHO + #8, #47 ;   
-  static CARRINHO + #9, #44 ;   
-  static CARRINHO + #10, #38 ;   
-  ;35  espacos para o proximo caractere
-  static CARRINHO + #11, #38 ;   
-  static CARRINHO + #12, #42 ;   
-  static CARRINHO + #13, #45 ;   
-  ;2  espacos para o proximo caractere
-  static CARRINHO + #14, #42 ;   
-  static CARRINHO + #15, #38 ;   
 
-CARRINHOGaps : var #16
-  static CARRINHOGaps + #0, #0
-  static CARRINHOGaps + #1, #0
-  static CARRINHOGaps + #2, #0
-  static CARRINHOGaps + #3, #1
-  static CARRINHOGaps + #4, #0
-  static CARRINHOGaps + #5, #34
-  static CARRINHOGaps + #6, #0
-  static CARRINHOGaps + #7, #0
-  static CARRINHOGaps + #8, #0
-  static CARRINHOGaps + #9, #0
-  static CARRINHOGaps + #10, #0
-  static CARRINHOGaps + #11, #34
-  static CARRINHOGaps + #12, #0
-  static CARRINHOGaps + #13, #0
-  static CARRINHOGaps + #14, #1
-  static CARRINHOGaps + #15, #0
-
-printCARRINHO:
-  push R0
-  push R1
-  push R2
-  push R3
-  push R4
-  push R5
-  push R6
-
-  loadn R0, #CARRINHO
-  loadn R1, #CARRINHOGaps
-  load R2, CARRINHOPosition
-  loadn R3, #16 ;tamanho CARRINHO
-  loadn R4, #0 ;incremetador
-
-  printCARRINHOLoop:
-    add R5,R0,R4
-    loadi R5, R5
-
-    add R6,R1,R4
-    loadi R6, R6
-
-    add R2, R2, R6
-
-    outchar R5, R2
-
-    inc R2
-     inc R4
-     cmp R3, R4
-    jne printCARRINHOLoop
-
-  pop R6
-  pop R5
-  pop R4
-  pop R3
-  pop R2
-  pop R1
-  pop R0
-  rts
-
-apagarCARRINHO:
-  push R0
-  push R1
-  push R2
-  push R3
-  push R4
-  push R5
-
-  loadn R0, #3967
-  loadn R1, #CARRINHOGaps
-  load R2, CARRINHOPosition
-  loadn R3, #16 ;tamanho CARRINHO
-  loadn R4, #0 ;incremetador
-
-  apagarCARRINHOLoop:
-    add R5,R1,R4
-    loadi R5, R5
-
-    add R2,R2,R5
-    outchar R0, R2
-
-    inc R2
-     inc R4
-     cmp R3, R4
-    jne apagarCARRINHOLoop
-
-  pop R5
-  pop R4
-  pop R3
-  pop R2
-  pop R1
-  pop R0
-  rts
 
 
 ;telas
@@ -622,3 +589,118 @@ tela5Linha26 : string "@@           Aperte Espaco            @@"
 tela5Linha27 : string "@@                                    @@"
 tela5Linha28 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 tela5Linha29 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+
+carrofederupa : var #16
+  static carrofederupa + #0, #2342 ;   &
+  static carrofederupa + #1, #2345 ;   )
+  static carrofederupa + #2, #2347 ;   +
+  ;2  espacos para o proximo caractere
+  static carrofederupa + #3, #2345 ;   )
+  static carrofederupa + #4, #2342 ;   &
+  ;35  espacos para o proximo caractere
+  static carrofederupa + #5, #2343 ;   '
+  static carrofederupa + #6, #2344 ;   (
+  static carrofederupa + #7, #2350 ;   .
+  static carrofederupa + #8, #2351 ;   /
+  static carrofederupa + #9, #2348 ;   ,
+  static carrofederupa + #10, #2342 ;   &
+  ;35  espacos para o proximo caractere
+  static carrofederupa + #11, #2342 ;   &
+  static carrofederupa + #12, #2346 ;   *
+  static carrofederupa + #13, #2349 ;   -
+  ;2  espacos para o proximo caractere
+  static carrofederupa + #14, #2346 ;   *
+  static carrofederupa + #15, #2342 ;   &
+
+carrofederupaGaps : var #16
+  static carrofederupaGaps + #0, #0
+  static carrofederupaGaps + #1, #0
+  static carrofederupaGaps + #2, #0
+  static carrofederupaGaps + #3, #1
+  static carrofederupaGaps + #4, #0
+  static carrofederupaGaps + #5, #34
+  static carrofederupaGaps + #6, #0
+  static carrofederupaGaps + #7, #0
+  static carrofederupaGaps + #8, #0
+  static carrofederupaGaps + #9, #0
+  static carrofederupaGaps + #10, #0
+  static carrofederupaGaps + #11, #34
+  static carrofederupaGaps + #12, #0
+  static carrofederupaGaps + #13, #0
+  static carrofederupaGaps + #14, #1
+  static carrofederupaGaps + #15, #0
+
+printcarrofederupa:
+  push R0
+  push R1
+  push R2
+  push R3
+  push R4
+  push R5
+  push R6
+
+  loadn R0, #carrofederupa
+  loadn R1, #carrofederupaGaps
+  load R2, carrofederupaPosition
+  loadn R3, #16 ;tamanho carrofederupa
+  loadn R4, #0 ;incremetador
+
+  printcarrofederupaLoop:
+    add R5,R0,R4
+    loadi R5, R5
+
+    add R6,R1,R4
+    loadi R6, R6
+
+    add R2, R2, R6
+
+    outchar R5, R2
+
+    inc R2
+     inc R4
+     cmp R3, R4
+    jne printcarrofederupaLoop
+
+  pop R6
+  pop R5
+  pop R4
+  pop R3
+  pop R2
+  pop R1
+  pop R0
+  rts
+
+apagarcarrofederupa:
+  push R0
+  push R1
+  push R2
+  push R3
+  push R4
+  push R5
+
+  loadn R0, #3967
+  loadn R1, #carrofederupaGaps
+  load R2, carrofederupaPosition
+  loadn R3, #16 ;tamanho carrofederupa
+  loadn R4, #0 ;incremetador
+
+  apagarcarrofederupaLoop:
+    add R5,R1,R4
+    loadi R5, R5
+
+    add R2,R2,R5
+    outchar R0, R2
+
+    inc R2
+     inc R4
+     cmp R3, R4
+    jne apagarcarrofederupaLoop
+
+  pop R5
+  pop R4
+  pop R3
+  pop R2
+  pop R1
+  pop R0
+  rts
+
