@@ -231,24 +231,24 @@ rts
 
 rand: var #80				; Vetor de posições aleatórias dos objetos
 	static rand + #0, #559
-	static rand + #1, #559
-	static rand + #2, #559
-	static rand + #3, #559
-	static rand + #4, #559
-	static rand + #5, #559
+	static rand + #1, #519
+	static rand + #2, #479
+	static rand + #3, #599
+	static rand + #4, #558
+	static rand + #5, #557
 	static rand + #6, #559
-	static rand + #7, #559
-	static rand + #8, #559
+	static rand + #7, #598
+	static rand + #8, #478
 	static rand + #9, #559
 	static rand + #10, #559
-	static rand + #11, #559
+	static rand + #11, #639
 	static rand + #12, #559
-	static rand + #13, #559
+	static rand + #13, #479
 	static rand + #14, #559
 	static rand + #15, #559
-	static rand + #16, #559
+	static rand + #16, #439
 	static rand + #17, #559
-	static rand + #18, #559
+	static rand + #18, #637
 	static rand + #19, #559
 	static rand + #20, #559
 	static rand + #21, #559
@@ -335,7 +335,7 @@ LoadVector:				; Funcao que carrega o vetor de 15 objetos
 	add r2, r2, r1			; Soma com o indice para saber a partir de qual deve-se armazenar
 	
 	loadn r3, #0			; Inicia o iterador int i
-	loadn r4, #3			; Limite do iterador
+	loadn r4, #10			; Limite do iterador
 	loadn r5, #objs			; Armazena a posicao inicial do vetor de objetos
 
 IncLoadVector:
@@ -374,7 +374,7 @@ printObj:						; Funcao que imprime os objetos
 	push r7
 	
 	loadn r1, #0			  ; Inicia o iterador
-	loadn r2, #3			  ; Limite do iterador
+	loadn r2, #10			  ; Limite do iterador
 	loadn r3, #objs			; Armazena o index inicial do vetor de objetos
 	loadn r5, #')'			; Armazena o caractere ')' para impressão
 	loadn r6, #1			  ; Armazena 1 para decremento
@@ -395,10 +395,10 @@ incCountPrintObj:
 	jne incCountPrintObj
 	
 	loadn r1, #40
-	div r2, r3, r1
+	div r2, r4, r1
 	sub r4, r4, r6
 	div r4, r4, r1
-	cmp r4, r3			; Compara se o ultimo objeto chegou ao fim da tela
+	cmp r4, r2			; Compara se o ultimo objeto chegou ao fim da tela
 	pop r7
 	pop r6
 	pop r5
@@ -406,7 +406,7 @@ incCountPrintObj:
 	pop r3
 	pop r2
 	pop r1
-	ceq LoadVector			; Se chegou, chama a função que carrega o vetor de objetos
+	cne LoadVector			; Se chegou, chama a função que carrega o vetor de objetos
 rts
 
 ShouldIPrintOrShouldINot:		; Verifica se o objeto ultrapassou a tela, se não, imprime
