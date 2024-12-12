@@ -2,6 +2,11 @@ CARRINHOPosition: var #1
 carrofederupaPosition : var #1
 loadn R4, #40 ; N° de colunas
 
+msgPontuacao: string "metros"
+
+loadn r2, #0			; Contador da pontuação
+loadn r3, #8000			; Limite da pontuação	
+
 main:
 
   call ApagaTela
@@ -14,8 +19,12 @@ main:
 
 
   loop:
-    call MoveCarrinho
     call Delay
+    call printaPontuacao
+    inc r2
+    cmp r2, r3
+    jeq ImprimeMenu
+    call MoveCarrinho
     jmp loop
 
 halt
@@ -210,6 +219,109 @@ NaoMove:
   pop r1
 rts
 
+
+;-------------------------------------------------------
+;********************************************************
+;                       IMPRIME STR
+;********************************************************	
+
+Imprimestr:			;  Rotina de Impresao de Mensagens:    
+				; r0 = Posicao da tela que o primeiro caractere da mensagem sera' impresso
+				; r1 = endereco onde comeca a mensagem
+				; r2 = cor da mensagem
+				; Obs: a mensagem sera' impressa ate' encontrar "/0"
+				
+				; Empilhamento: protege os registradores utilizados na subrotina na pilha para preservar seu valor				
+	push r0			; Posicao da tela que o primeiro caractere da mensagem sera' impresso
+	push r1			; endereco onde comeca a mensagem
+	push r2			; cor da mensagem
+	push r3			; Criterio de parada
+	push r4			; Recebe o codigo do caractere da Mensagem
+	
+	loadn r3, #'\0'	; Criterio de parada
+
+ImprimestrLoop:	
+	loadi r4, r1		; aponta para a memoria no endereco r1 e busca seu conteudo em r4
+	cmp r4, r3		; compara o codigo do caractere buscado com o criterio de parada
+	jeq ImprimestrSai	; goto Final da rotina
+	add r4, r2, r4		; soma a cor (r2) no codigo do caractere em r4
+	outchar r4, r0		; imprime o caractere cujo codigo está em r4 na posicao r0 da tela
+	inc r0			; incrementa a posicao que o proximo caractere sera' escrito na tela
+	inc r1			; incrementa o ponteiro para a mensagem na memoria
+	jmp ImprimestrLoop	; goto Loop
+	
+ImprimestrSai:			; Desempilhamento: resgata os valores dos registradores utilizados na Subrotina da Pilha
+
+	pop r4	
+	pop r3
+	pop r2
+	pop r1
+	pop r0
+rts
+
+;-------------------------------------------------------
+
+;********************************************************
+;                       IMPRIME PONTUAÇÃO
+;********************************************************	
+
+printaPontuacao:			 	; Imprime valor do score
+	push r0	
+	push r1
+	push r2
+	push r3
+	push r4
+	push r5
+	push r6
+	push r7
+	
+	loadn r0, #45     		;Posicao do print na tela
+	loadn r1, #10
+	loadn r4, #'0'
+ 	loadn r5, #2816;cor do obj
+	
+LoopPrintaPontua:
+	mod r3, r2, r1
+	add r3, r3, r4
+	add r3, r3, r5
+	outchar r3, r0
+	dec r0
+	jz StopPrintaPontua
+  call calculaMetro
+	div r2, r2, r1
+	jnz LoopPrintaPontua
+	
+StopPrintaPontua:
+	
+	pop r7
+	pop r6
+	pop r5
+	pop r4
+	pop r3
+	pop r2
+	pop r1
+	pop r0
+rts
+
+calculaMetro:
+
+  push r1
+
+  loadn r1, #10
+  mul r2, r2, r1
+  loadn r1, #11
+  div r2, r2, r1
+
+  pop r1
+
+rts  
+
+printScore:				; Imprime o mensagem de score
+	loadn r0, #0
+	loadn r1, #msgPontuacao
+	loadn r2, #0	
+	call Imprimestr
+rts
 
 ;-------------------------------------------------------
 
