@@ -4,7 +4,7 @@ loadn R4, #40 ; N° de colunas
 
 msgPontuacao: string "metros"
 
-loadn r3, #100		; Limite da pontuação	
+loadn r3, #1100		; Limite da pontuação	
 
 main:
 
@@ -287,7 +287,6 @@ LoopPrintaPontua:
 	outchar r3, r0
 	dec r0
 	jz StopPrintaPontua
-  call calculaMetro
 	div r2, r2, r1
 	jnz LoopPrintaPontua
 	
@@ -302,19 +301,6 @@ StopPrintaPontua:
 	pop r1
 	pop r0
 rts
-
-calculaMetro:
-
-  push r1
-
-  loadn r1, #10
-  mul r2, r2, r1
-  loadn r1, #11
-  div r2, r2, r1
-
-  pop r1
-
-rts  
 
 printScore:				; Imprime o mensagem de score
 	loadn r0, #0
