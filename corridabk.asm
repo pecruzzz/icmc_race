@@ -10,7 +10,7 @@ main:
 
   loadn r1, #0			; Contador do vetor de posições de objetos
   loadn r2, #0			; Contador da pontuação
-  loadn r3, #500			; Limite da pontuação	
+  loadn r3, #2000		; Limite da pontuação	
 
   call ApagaTela
   call ImprimeMenu
@@ -230,16 +230,16 @@ rts
 ;********************************************************
 
 rand: var #80				; Vetor de posições aleatórias dos objetos
-	static rand + #0, #559
-	static rand + #1, #559
-	static rand + #2, #559
-	static rand + #3, #559
-	static rand + #4, #559
-	static rand + #5, #559
-	static rand + #6, #559
+	static rand + #0, #279
+	static rand + #1, #319
+	static rand + #2, #359
+	static rand + #3, #399
+	static rand + #4, #439
+	static rand + #5, #479
+	static rand + #6, #519
 	static rand + #7, #559
-	static rand + #8, #559
-	static rand + #9, #559
+	static rand + #8, #599
+	static rand + #9, #639
 	static rand + #10, #559
 	static rand + #11, #559
 	static rand + #12, #559
@@ -258,58 +258,58 @@ rand: var #80				; Vetor de posições aleatórias dos objetos
 	static rand + #25, #559
 	static rand + #26, #559
 	static rand + #27, #559
-	static rand + #28, #559
-	static rand + #29, #559
-	static rand + #30, #559
-	static rand + #31, #559
-	static rand + #32, #559
-	static rand + #33, #559
-	static rand + #34, #559
-	static rand + #35, #559
-	static rand + #36, #559
-	static rand + #37, #559
-	static rand + #38, #559
-	static rand + #39, #559
-	static rand + #40, #559
-	static rand + #41, #559
-	static rand + #42, #559
-	static rand + #43, #559
-	static rand + #44, #559
-	static rand + #45, #559
-	static rand + #46, #559
-	static rand + #47, #559
-	static rand + #48, #559
-	static rand + #49, #559
-	static rand + #50, #559
-	static rand + #51, #559
-	static rand + #52, #559
-	static rand + #53, #559
-	static rand + #54, #559
-	static rand + #55, #559
-	static rand + #56, #559
-	static rand + #57, #559
-	static rand + #58, #559
-	static rand + #59, #559
-	static rand + #60, #559
-	static rand + #61, #559
-	static rand + #62, #559
-	static rand + #63, #559
-	static rand + #64, #559
-	static rand + #65, #559
-	static rand + #66, #559
-	static rand + #67, #559
-	static rand + #68, #559
-	static rand + #69, #559
-	static rand + #70, #559
-	static rand + #71, #559
-	static rand + #72, #559
-	static rand + #73, #559
-	static rand + #74, #559
-	static rand + #75, #559
-	static rand + #76, #559
-	static rand + #77, #559
-	static rand + #78, #559
-	static rand + #79, #559
+	static rand + #28, #479
+	static rand + #29, #479
+	static rand + #30, #479
+	static rand + #31, #479
+	static rand + #32, #479
+	static rand + #33, #479
+	static rand + #34, #479
+	static rand + #35, #479
+	static rand + #36, #479
+	static rand + #37, #479
+	static rand + #38, #479
+	static rand + #39, #479
+	static rand + #40, #479
+	static rand + #41, #479
+	static rand + #42, #479
+	static rand + #43, #479
+	static rand + #44, #479
+	static rand + #45, #479
+	static rand + #46, #479
+	static rand + #47, #479
+	static rand + #48, #479
+	static rand + #49, #479
+	static rand + #50, #479
+	static rand + #51, #479
+	static rand + #52, #479
+	static rand + #53, #479
+	static rand + #54, #479
+	static rand + #55, #479
+	static rand + #56, #479
+	static rand + #57, #479
+	static rand + #58, #479
+	static rand + #59, #479
+	static rand + #60, #479
+	static rand + #61, #479
+	static rand + #62, #479
+	static rand + #63, #479
+	static rand + #64, #479
+	static rand + #65, #479
+	static rand + #66, #479
+	static rand + #67, #479
+	static rand + #68, #479
+	static rand + #69, #479
+	static rand + #70, #479
+	static rand + #71, #479
+	static rand + #72, #479
+	static rand + #73, #479
+	static rand + #74, #479
+	static rand + #75, #479
+	static rand + #76, #479
+	static rand + #77, #479
+	static rand + #78, #479
+	static rand + #79, #479
 
 objs: var #10				; Vetor que armazena os 10 objetos simultâneos na tela
 	static objs + #0, #0
@@ -335,7 +335,7 @@ LoadVector:				; Funcao que carrega o vetor de 15 objetos
 	add r2, r2, r1			; Soma com o indice para saber a partir de qual deve-se armazenar
 	
 	loadn r3, #0			; Inicia o iterador int i
-	loadn r4, #3			; Limite do iterador
+	loadn r4, #10			; Limite do iterador
 	loadn r5, #objs			; Armazena a posicao inicial do vetor de objetos
 
 IncLoadVector:
@@ -374,7 +374,7 @@ printObj:						; Funcao que imprime os objetos
 	push r7
 	
 	loadn r1, #0			  ; Inicia o iterador
-	loadn r2, #3			  ; Limite do iterador
+	loadn r2, #10			  ; Limite do iterador
 	loadn r3, #objs			; Armazena o index inicial do vetor de objetos
 	loadn r5, #')'			; Armazena o caractere ')' para impressão
 	loadn r6, #1			  ; Armazena 1 para decremento
@@ -394,48 +394,59 @@ incCountPrintObj:
 	cmp r1, r2				; Compara se iterador chegou ao fim
 	jne incCountPrintObj
 	
+	loadn r1, #40
+	div r2, r4, r1
+	sub r4, r4, r6
+	div r4, r4, r1
+	cmp r4, r2			; Compara se o ultimo objeto chegou ao fim da tela
 	pop r7
 	pop r6
 	pop r5
-	loadn r2, #40
-  loadn r3, #0
-  mod r2, r4, r2
-	cmp r4, r3			; Compara se o ultimo objeto chegou ao fim da tela
 	pop r4
 	pop r3
 	pop r2
 	pop r1
-	ceq LoadVector			; Se chegou, chama a função que carrega o vetor de objetos
+	cne LoadVector			; Se chegou, chama a função que carrega o vetor de objetos
 rts
 
 ShouldIPrintOrShouldINot:		; Verifica se o objeto ultrapassou a tela, se não, imprime
 	push r0
-  push r1
-  push r2
-  loadn r1, #40
-	loadn r0, #0
-  mod r1, r4, r1
-	cmp r1, r0
-  jeq NotPrint
-  outchar r5, r4
+	push r1
+  	push r2
+	push r6
+	mov r6, r4
+	dec r6
+  	loadn r1, #40
+  	div r0, r6, r1
+  	div r1, r4, r1
+  	cmp r0, r1
+  	jle NotPrint
+  	outchar r5, r4
 NotPrint:
-  pop r2
-  pop r1
-	pop r0
+	pop r6
+	pop r2
+	pop r1
+  	pop r0
 rts
 
 ShouldIEraseOrShouldINot: 		; Verifica se o objeto ultrapassou a tela, se não, apaga
 	push r0
 	push r1
-  loadn r1, #40
-	loadn r0, #0
-  mod r1, r4, r1
-	cmp r1, r0
-	jeq NotPrint
+  	push r2
+	push r6
+	mov r6, r4
+	dec r6
+  	loadn r1, #40
+  	div r0, r6, r1
+  	div r1, r4, r1
+  	cmp r0, r1
+	jle NotPrint
 	outchar r7, r4
-NotPrint:
-  	pop r1
-	pop r0
+NotErase:
+	pop r6
+	pop r2
+	pop r1
+  	pop r0
 rts
 
 ;-------------------------------------------------------
@@ -505,7 +516,6 @@ LoopPrintaPontua:
 	outchar r3, r0
 	dec r0
 	jz StopPrintaPontua
-  call calculaMetro
 	div r2, r2, r1
 	jnz LoopPrintaPontua
 	
@@ -522,19 +532,6 @@ StopPrintaPontua:
 	pop r1
 	pop r0
 rts
-
-calculaMetro:
-
-  push r1
-
-  loadn r1, #10
-  mul r2, r2, r1
-  loadn r1, #11
-  div r2, r2, r1
-
-  pop r1
-
-rts  
 
 printScore:				; Imprime o mensagem de score
 	loadn r0, #0
