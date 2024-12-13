@@ -370,24 +370,21 @@ printObj:						; Funcao que imprime os objetos
 	push r3
 	push r4
 	push r5
-	push r6
 	push r7
 	
 	loadn r1, #0			  ; Inicia o iterador
 	loadn r2, #10			  ; Limite do iterador
 	loadn r3, #objs			; Armazena o index inicial do vetor de objetos
 	loadn r5, #')'			; Armazena o caractere ')' para impressão
-	loadn r6, #1			  ; Armazena 1 para decremento
 	loadn r7, #' '			; Armazena espaço para apagar objeto
 	
 incCountPrintObj:
   	call Delay
 	loadi r4, r3				; Carrega o valor da posicao de r3 para r4
 	call ShouldIEraseOrShouldINot		; Funcao que verifica se o objeto ainda esta na tela
-	sub r4, r4, r6				; Subtrai 1 a posicao do objeto
+	dec r4			; Subtrai 1 a posicao do objeto
 	call ShouldIPrintOrShouldINot		; Funcao que verifica se o objeto ainda esta na tela
-	cmp r4, r0				; Compara a ponteiro do objeto com o carro, para saber se houve colisao
-	jeq Lose				; Se houve colisao, pula para Lose
+	call Colisao						; Compara a posição do objeto com o carro, para saber se houve colisao
 	storei r3, r4				; Armazena o novo valor da posicao do objeto
 	inc r3					; Incrementa posicao do vetor
 	inc r1					; Incrementa iterador
@@ -396,11 +393,10 @@ incCountPrintObj:
 	
 	loadn r1, #40
 	div r2, r4, r1
-	sub r4, r4, r6
+	dec r4
 	div r4, r4, r1
 	cmp r4, r2			; Compara se o ultimo objeto chegou ao fim da tela
 	pop r7
-	pop r6
 	pop r5
 	pop r4
 	pop r3
@@ -742,6 +738,44 @@ Delay:
 ;********************************************************
 ;                       FIM DE JOGO
 ;********************************************************
+
+Colisao:
+	push r1
+	push r2
+	push r3
+	push r5
+
+	loadn r2, #40	; Armazena 40 para pular linha
+	loadn r3, #3	; Armazena 3 para loop (largura carrinho/limite do iterador)
+	loadn r5, #6	; Armazena 6 para loop (comprimento carrinho/limite do iterador)
+
+	mov r1, r0		; Armazena a posição do primeiro caractere do carrinho no r1
+
+	ColisaoLoop1:
+		ColisaoLoop2:
+			cmp r4, r1
+			jeq jmpLose
+			inc r1
+			dec r5
+			jnz ColisaoLoop2
+	loadn r5, #6
+	add r1, r1, r2
+	sub r1, r1, r5
+	dec r3
+	jnz ColisaoLoop1
+
+	pop r5
+	pop r3
+	pop r2
+	pop r1
+	rts
+	jmpLose:
+		pop r5
+		pop r3
+		pop r2
+		pop r1
+		jmp Lose
+
 Lose:
 	push r0
 	push r1
