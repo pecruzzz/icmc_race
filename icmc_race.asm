@@ -240,66 +240,66 @@ rand: var #80				; Vetor de posições aleatórias dos objetos
 	static rand + #7, #559
 	static rand + #8, #599
 	static rand + #9, #639
-	static rand + #10, #559
-	static rand + #11, #559
-	static rand + #12, #559
-	static rand + #13, #559
-	static rand + #14, #559
-	static rand + #15, #559
-	static rand + #16, #559
-	static rand + #17, #559
-	static rand + #18, #559
-	static rand + #19, #559
-	static rand + #20, #559
-	static rand + #21, #559
-	static rand + #22, #559
+	static rand + #10, #599
+	static rand + #11, #639
+	static rand + #12, #679
+	static rand + #13, #719
+	static rand + #14, #759
+	static rand + #15, #799
+	static rand + #16, #839
+	static rand + #17, #879
+	static rand + #18, #919
+	static rand + #19, #959
+	static rand + #20, #439
+	static rand + #21, #479
+	static rand + #22, #519
 	static rand + #23, #559
-	static rand + #24, #559
-	static rand + #25, #559
-	static rand + #26, #559
-	static rand + #27, #559
-	static rand + #28, #479
-	static rand + #29, #479
-	static rand + #30, #479
-	static rand + #31, #479
+	static rand + #24, #599
+	static rand + #25, #639
+	static rand + #26, #679
+	static rand + #27, #719
+	static rand + #28, #759
+	static rand + #29, #799
+	static rand + #30, #399
+	static rand + #31, #439
 	static rand + #32, #479
-	static rand + #33, #479
-	static rand + #34, #479
-	static rand + #35, #479
-	static rand + #36, #479
-	static rand + #37, #479
-	static rand + #38, #479
-	static rand + #39, #479
-	static rand + #40, #479
-	static rand + #41, #479
-	static rand + #42, #479
-	static rand + #43, #479
-	static rand + #44, #479
-	static rand + #45, #479
+	static rand + #33, #519
+	static rand + #34, #559
+	static rand + #35, #599
+	static rand + #36, #639
+	static rand + #37, #679
+	static rand + #38, #719
+	static rand + #39, #759
+	static rand + #40, #279
+	static rand + #41, #399
+	static rand + #42, #519
+	static rand + #43, #639
+	static rand + #44, #679
+	static rand + #45, #719
 	static rand + #46, #479
 	static rand + #47, #479
 	static rand + #48, #479
-	static rand + #49, #479
-	static rand + #50, #479
-	static rand + #51, #479
-	static rand + #52, #479
-	static rand + #53, #479
-	static rand + #54, #479
-	static rand + #55, #479
-	static rand + #56, #479
-	static rand + #57, #479
-	static rand + #58, #479
-	static rand + #59, #479
-	static rand + #60, #479
-	static rand + #61, #479
+	static rand + #49, #919
+	static rand + #50, #279
+	static rand + #51, #279
+	static rand + #52, #279
+	static rand + #53, #279
+	static rand + #54, #439
+	static rand + #55, #559
+	static rand + #56, #639
+	static rand + #57, #759
+	static rand + #58, #879
+	static rand + #59, #959
+	static rand + #60, #279
+	static rand + #61, #399
 	static rand + #62, #479
-	static rand + #63, #479
-	static rand + #64, #479
-	static rand + #65, #479
-	static rand + #66, #479
-	static rand + #67, #479
-	static rand + #68, #479
-	static rand + #69, #479
+	static rand + #63, #639
+	static rand + #64, #679
+	static rand + #65, #759
+	static rand + #66, #839
+	static rand + #67, #919
+	static rand + #68, #959
+	static rand + #69, #959
 	static rand + #70, #479
 	static rand + #71, #479
 	static rand + #72, #479
