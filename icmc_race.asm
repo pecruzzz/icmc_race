@@ -751,17 +751,17 @@ Colisao:
 
 	mov r1, r0		; Armazena a posição do primeiro caractere do carrinho no r1
 
-	ColisaoLoop1:
+	ColisaoLoop1:	; Loop considerando o comprimento e a largura do carrinho
 		ColisaoLoop2:
-			cmp r4, r1
+			cmp r4, r1 ; Verifica a se colidiu
 			jeq jmpLose
-			inc r1
-			dec r5
+			inc r1	; Vai para o próximo caractere do carrinho
+			dec r5	; i-- para o loop chegar no limitador
 			jnz ColisaoLoop2
-	loadn r5, #6
-	add r1, r1, r2
-	sub r1, r1, r5
-	dec r3
+	loadn r5, #6	; Recarrega o valor do loop anterior
+	add r1, r1, r2	; Pula para a próxima linha do carrinho
+	sub r1, r1, r5	; Subtrai os incrementos feitos pelo ColisaoLoop2
+	dec r3 ; j--
 	jnz ColisaoLoop1
 
 	pop r5
