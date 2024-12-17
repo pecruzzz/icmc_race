@@ -27,7 +27,7 @@ main:
     call printaPontuacao
     inc r2
     cmp r2, r3
-    jeq main
+    jeq Win
     call printObj
     call MoveCarrinho
     jmp loop
@@ -622,39 +622,6 @@ ImprimeStr2:	;  Rotina de Impresao de Mensagens:    r0 = Posicao da tela que o p
 	pop r0
 	rts
 
-Imprimestr:			;  Rotina de Impresao de Mensagens:    
-				; r0 = Posicao da tela que o primeiro caractere da mensagem sera' impresso
-				; r1 = endereco onde comeca a mensagem
-				; r2 = cor da mensagem
-				; Obs: a mensagem sera' impressa ate' encontrar "/0"
-				
-				; Empilhamento: protege os registradores utilizados na subrotina na pilha para preservar seu valor				
-	push r0			; Posicao da tela que o primeiro caractere da mensagem sera' impresso
-	push r1			; endereco onde comeca a mensagem
-	push r2			; cor da mensagem
-	push r3			; Criterio de parada
-	push r4			; Recebe o codigo do caractere da Mensagem
-	
-	loadn r3, #'\0'	; Criterio de parada
-
-ImprimestrLoop:	
-	loadi r4, r1		; aponta para a memoria no endereco r1 e busca seu conteudo em r4
-	cmp r4, r3		; compara o codigo do caractere buscado com o criterio de parada
-	jeq ImprimestrSai	; goto Final da rotina
-	add r4, r2, r4		; soma a cor (r2) no codigo do caractere em r4
-	outchar r4, r0		; imprime o caractere cujo codigo está em r4 na posicao r0 da tela
-	inc r0			; incrementa a posicao que o proximo caractere sera' escrito na tela
-	inc r1			; incrementa o ponteiro para a mensagem na memoria
-	jmp ImprimestrLoop	; goto Loop
-	
-ImprimestrSai:			; Desempilhamento: resgata os valores dos registradores utilizados na Subrotina da Pilha
-
-	pop r4	
-	pop r3
-	pop r2
-	pop r1
-	pop r0
-rts				; retorno da subrotina
 
 
 ;********************************************************
@@ -692,6 +659,38 @@ ImprimeMenu:
   	rts
 
 ;--------------------------------------------------------
+;********************************************************
+;               IMPRIME TELA DE WIN
+;********************************************************	
+
+Win:
+	push r0
+	push r1
+	push r2
+	push r3
+	push r4
+
+	call ApagaTela
+
+  	loadn R1, #tela7Linha0	; Endereco onde comeca a primeira linha do cenario!!
+	loadn R2, #0  			; cor lima
+	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
+
+  	inchar r4
+
+	loadn r3, #'n'
+	cmp r4, r3
+	jeq losefim
+	loadn r3, #'N'
+	cmp r4, r3
+	jeq losefim
+  	loadn r3, #'s'
+  	cmp r4, r3
+  	jeq continuarjogando
+	loadn r3, #'S'
+  	cmp r4, r3
+  	jne loopLose
+	jmp continuarjogando
 
 ;********************************************************
 ;                       IMPRIME PISTA
@@ -1067,6 +1066,37 @@ tela6Linha26 : string "@@                                    @@"
 tela6Linha27 : string "@@                                    @@"
 tela6Linha28 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 tela6Linha29 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+
+tela7Linha0  : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+tela7Linha1  : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+tela7Linha2  : string "@@                                    @@"
+tela7Linha3  : string "@@                                    @@"
+tela7Linha4  : string "@@                                    @@"
+tela7Linha6  : string "@@                                    @@"
+tela7Linha5  : string "@@                                    @@"
+tela7Linha7  : string "@@                                    @@"
+tela7Linha8  : string "@@         Voce completou a           @@"
+tela7Linha9  : string "@@       corrida sem colidir          @@"
+tela7Linha10 : string "@@                                    @@"
+tela7Linha11 : string "@@            Voce eh um              @@"
+tela7Linha12 : string "@@        verdadeiro campeao!         @@"
+tela7Linha13 : string "@@                                    @@"
+tela7Linha14 : string "@@                                    @@"
+tela7Linha15 : string "@@                                    @@"
+tela7Linha16 : string "@@                                    @@"
+tela7Linha17 : string "@@      Deseja jogar novamente?       @@"
+tela7Linha18 : string "@@                                    @@"
+tela7Linha19 : string "@@               s|n                  @@"
+tela7Linha20 : string "@@                                    @@"
+tela7Linha21 : string "@@                                    @@"
+tela7Linha22 : string "@@                                    @@"
+tela7Linha23 : string "@@                                    @@"
+tela7Linha24 : string "@@                                    @@"
+tela7Linha25 : string "@@                                    @@"
+tela7Linha26 : string "@@                                    @@"
+tela7Linha27 : string "@@                                    @@"
+tela7Linha28 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+tela7Linha29 : string "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 
 carrofederupa : var #16
   static carrofederupa + #0, #2342 ;   &
